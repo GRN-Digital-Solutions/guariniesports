@@ -322,7 +322,7 @@
     @keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
     /* PROBLEM */
-    .problem__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .problem__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 60px; align-items: center; }
     .problem__lead { font-size: clamp(17px, 2vw, 20px); color: var(--c-text-2); line-height: 1.7; font-weight: 300; margin-bottom: 32px; }
     .problem__lead strong { color: var(--c-text); font-weight: 500; }
     .problem__pain-list { display: flex; flex-direction: column; gap: 12px; }
@@ -337,6 +337,124 @@
     .stat-card:hover { border-color: var(--c-border-glow); transform: translateY(-4px); }
     .stat-card__num { font-family: var(--font-display); font-size: 48px; font-weight: 800; letter-spacing: -0.04em; color: var(--c-accent); line-height: 1; margin-bottom: 6px; }
     .stat-card__label { font-size: 13px; color: var(--c-text-2); }
+
+    /* NEWS CAROUSEL — dados e pesquisas (mobile first) */
+    .news-carousel { position: relative; width: 100%; min-width: 0; max-width: 100%; }
+    .news-carousel__nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 3;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--c-surface-2);
+      border: 1px solid var(--c-border);
+      color: var(--c-text-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      padding: 0;
+    }
+    .news-carousel__nav:hover {
+      background: var(--c-accent);
+      border-color: var(--c-accent);
+      color: #030304;
+    }
+    .news-carousel__nav .material-symbols-outlined { font-size: 20px; }
+    .news-carousel__nav--prev { left: -14px; }
+    .news-carousel__nav--next { right: -14px; }
+
+    @media (max-width: 480px) {
+      .news-carousel__nav--prev { left: -8px; }
+      .news-carousel__nav--next { right: -8px; }
+      .news-carousel__nav { width: 32px; height: 32px; }
+      .news-carousel__nav .material-symbols-outlined { font-size: 18px; }
+    }
+    .news-carousel__track {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      min-height: 280px;
+    }
+    .news-card {
+      display: none;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      flex-direction: column;
+      gap: 14px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      animation: news-fade-in 0.4s ease both;
+    }
+    .news-card.active {
+      display: flex;
+    }
+    @keyframes news-fade-in {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .news-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--c-accent), var(--c-accent-mid));
+      opacity: 0.7;
+    }
+    /* card estático — sem hover de link */
+    .news-card__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .news-card__tag {
+      font-family: var(--font-subtitle);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-accent);
+      background: var(--c-accent-glow);
+      border: 1px solid var(--c-border-glow);
+      padding: 4px 10px;
+      border-radius: 50px;
+      white-space: nowrap;
+    }
+    .news-card__source {
+      font-size: 11px;
+      color: var(--c-text-3);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .news-card__stat {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--c-accent);
+      line-height: 1;
+    }
+    .news-card__text { font-size: 13.5px; color: var(--c-text-2); line-height: 1.55; }
+    .news-carousel__dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 16px;
+    }
+    .news-carousel__dots span {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--c-border);
+      transition: var(--transition);
+    }
+    .news-carousel__dots span.active { background: var(--c-accent); width: 18px; border-radius: 3px; }
 
     /* SERVICES */
     .services__header { max-width: 640px; margin: 0 auto 60px; }
@@ -497,7 +615,7 @@
       .maintenance__inner { grid-template-columns: 1fr; }
       .forwhom__grid { grid-template-columns: 1fr; }
       .forwhom__visual { display: none; }
-      .problem__grid { grid-template-columns: 1fr; gap: 40px; }
+      .problem__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 60px; align-items: center; }
     }
 
     @media (max-width: 768px) {
@@ -532,6 +650,13 @@
       .footer__grid { grid-template-columns: 1fr; gap: 32px; }
       .benefits__list { grid-template-columns: 1fr; }
       .wa-float { bottom: 20px; right: 20px; }
+
+      .problem__grid { gap: 32px; }
+      .problem__right { width: 100%; }
+      .news-carousel { width: 100%; max-width: 100%; }
+      .news-carousel__nav--prev { left: 0; }
+      .news-carousel__nav--next { right: 0; }
+      .news-card { padding: 28px 22px; }
     }
   </style>
 </head>
@@ -590,19 +715,18 @@
         <!-- COLUNA ESQUERDA -->
         <div class="hero__content">
           <h1 class="hero__title" id="hero-title">
-            Sua Ideia<br>
-            Merece <em>Sair</em><br>
-            do Papel.
+            Sua equipe<br>
+            perde <em>horas</em><br>
+            em planilhas?
           </h1>
           <p class="hero__sub">
-            Desenvolvemos sistemas, aplicativos, plataformas e automações personalizadas para empresas e empreendedores que precisam de soluções reais e escaláveis.
+            Desenvolvemos sistemas, plataformas e automações personalizadas para empresas que querem crescer sem aumentar a complexidade da operação.
           </p>
           <div class="hero__actions">
             <a href="https://wa.me/5541995792310?text=Olá!%20Gostaria%20de%20solicitar%20uma%20conversa%20gratuita%20sobre%20meu%20projeto." target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg btn-icon">
               <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
               Falar com um especialista
             </a>
-            <a href="#servicos" class="btn btn-outline btn-lg">Ver Serviços</a>
           </div>
         </div><!-- /hero__content -->
 
@@ -633,6 +757,7 @@
         <span class="marquee-item"><span class="dot"></span> CRM Personalizado</span>
         <span class="marquee-item"><span class="dot"></span> Integrações API</span>
         <span class="marquee-item"><span class="dot"></span> MVP Ágil</span>
+        <span class="marquee-item"><span class="dot"></span> Segurança e LGPD</span>
         <span class="marquee-item"><span class="dot"></span> Sistemas ERP</span>
         <span class="marquee-item"><span class="dot"></span> Aplicativos Mobile</span>
         <span class="marquee-item"><span class="dot"></span> Plataformas SaaS</span>
@@ -641,6 +766,7 @@
         <span class="marquee-item"><span class="dot"></span> CRM Personalizado</span>
         <span class="marquee-item"><span class="dot"></span> Integrações API</span>
         <span class="marquee-item"><span class="dot"></span> MVP Ágil</span>
+        <span class="marquee-item"><span class="dot"></span> Segurança e LGPD</span>
       </div>
     </div>
 
@@ -648,21 +774,76 @@
       <div class="container">
         <div class="problem__grid">
           <div class="problem__left">
-            <span class="eyebrow reveal">O Problema</span>
             <h2 class="heading-lg reveal reveal-delay-1" id="problema-title">A Maioria das Empresas<br>Está Presa no Passado.</h2>
             <p class="problem__lead reveal reveal-delay-2">Enquanto o mercado avança, muitos negócios ainda dependem de <strong>planilhas frágeis</strong>, <strong>sistemas legados</strong> e <strong>processos manuais</strong> que freiam o crescimento.</p>
-            <div class="problem__pain-list" role="list">
-              <div class="pain-item reveal reveal-delay-2" role="listitem"><span class="pain-item__icon" aria-hidden="true"><span class="material-symbols-outlined">warning</span></span><span class="pain-item__text">Processos manuais que consomem tempo e geram erros constantes</span></div>
-              <div class="pain-item reveal reveal-delay-3" role="listitem"><span class="pain-item__icon" aria-hidden="true"><span class="material-symbols-outlined">trending_down</span></span><span class="pain-item__text">Sistemas que não crescem junto com o negócio</span></div>
-              <div class="pain-item reveal reveal-delay-3" role="listitem"><span class="pain-item__icon" aria-hidden="true"><span class="material-symbols-outlined">link_off</span></span><span class="pain-item__text">Ferramentas desconectadas que não conversam entre si</span></div>
-              <div class="pain-item reveal reveal-delay-4" role="listitem"><span class="pain-item__icon" aria-hidden="true"><span class="material-symbols-outlined">money_off</span></span><span class="pain-item__text">Retrabalho e desperdício de recursos por falta de automação</span></div>
-              <div class="pain-item reveal reveal-delay-4" role="listitem"><span class="pain-item__icon" aria-hidden="true"><span class="material-symbols-outlined">block</span></span><span class="pain-item__text">Ideias prontas que não saem do papel por falta de apoio técnico</span></div>
-            </div>
           </div>
           <div class="problem__right">
-            <div class="stat-card reveal reveal-delay-1"><div class="stat-card__num">73%</div><div class="stat-card__label">Das PMEs ainda usam planilhas como sistema principal</div></div>
-            <div class="stat-card reveal reveal-delay-2"><div class="stat-card__num">4×</div><div class="stat-card__label">Mais produtividade com processos automatizados</div></div>
-            <div class="stat-card reveal reveal-delay-3"><div class="stat-card__num">60%</div><div class="stat-card__label">De redução de erros com sistemas personalizados</div></div>
+            <div class="news-carousel reveal reveal-delay-1" aria-label="Dados e pesquisas sobre riscos de software inseguro">
+              <button class="news-carousel__nav news-carousel__nav--prev" id="newsPrev" aria-label="Notícia anterior" type="button">
+                <span class="material-symbols-outlined">chevron_left</span>
+              </button>
+              <button class="news-carousel__nav news-carousel__nav--next" id="newsNext" aria-label="Próxima notícia" type="button">
+                <span class="material-symbols-outlined">chevron_right</span>
+              </button>
+              <div class="news-carousel__track" id="newsTrack">
+
+                <div class="news-card active">
+                  <div class="news-card__top">
+                    <span class="news-card__tag">Mercado Digital</span>
+                    <span class="news-card__source">Stack Overflow · 2025</span>
+                  </div>
+                  <div class="news-card__stat">84%</div>
+                  <p class="news-card__text">dos desenvolvedores já utilizam ou planejam utilizar ferramentas de IA em seu fluxo de trabalho</p>
+                </div>
+
+                <div class="news-card">
+                  <div class="news-card__top">
+                    <span class="news-card__tag">IA</span>
+                    <span class="news-card__source">Stack Overflow · 2025</span>
+                  </div>
+                  <div class="news-card__stat">46%</div>
+                  <p class="news-card__text">dos desenvolvedores afirmam não confiar totalmente na precisão do código gerado por IA</p>
+                </div>
+
+                <div class="news-card">
+                  <div class="news-card__top">
+                    <span class="news-card__tag">Segurança</span>
+                    <span class="news-card__source">Veracode · 2025</span>
+                  </div>
+                  <div class="news-card__stat">45%</div>
+                  <p class="news-card__text">do código produzido por IA apresenta vulnerabilidades de segurança quando não passa por revisão especializada</p>
+                </div>
+
+                <div class="news-card">
+                  <div class="news-card__top">
+                    <span class="news-card__tag">Governança</span>
+                    <span class="news-card__source">GitLab · 2026</span>
+                  </div>
+                  <div class="news-card__stat">80%</div>
+                  <p class="news-card__text">das empresas adotam ferramentas de IA mais rápido do que conseguem implementar políticas de segurança e governança</p>
+                </div>
+
+                <div class="news-card">
+                  <div class="news-card__top">
+                    <span class="news-card__tag">Ataques</span>
+                    <span class="news-card__source">IBM X-Force · 2026</span>
+                  </div>
+                  <div class="news-card__stat">44%</div>
+                  <p class="news-card__text">foi o aumento dos ataques explorando aplicações públicas, impulsionados pelo uso de IA por criminosos</p>
+                </div>
+
+                <div class="news-card">
+                  <div class="news-card__top">
+                    <span class="news-card__tag">LGPD</span>
+                    <span class="news-card__source">IBM</span>
+                  </div>
+                  <div class="news-card__stat">R$ 7,19 mi</div>
+                  <p class="news-card__text">é o custo médio de um vazamento de dados para empresas brasileiras</p>
+                </div>
+
+              </div>
+              <div class="news-carousel__dots" id="newsDots" aria-hidden="true"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -671,7 +852,6 @@
     <section class="section" id="servicos" aria-labelledby="servicos-title">
       <div class="container">
         <div class="services__header text-center">
-          <span class="eyebrow reveal">Serviços</span>
           <h2 class="heading-lg reveal reveal-delay-1" id="servicos-title">O Que Podemos<br>Desenvolver Para Você</h2>
           <p class="text-muted reveal reveal-delay-2" style="font-size:16px;line-height:1.65;margin-top:16px;">Se você consegue imaginar, nós podemos desenvolver. Cada solução é construída do zero, alinhada à sua realidade.</p>
         </div>
@@ -696,7 +876,6 @@
       <div class="container">
         <div class="forwhom__grid">
           <div>
-            <span class="eyebrow reveal">Para Quem É</span>
             <h2 class="heading-lg reveal reveal-delay-1" id="paraquem-title">Para Quem é a<br>GRN Digital Solutions?</h2>
             <p class="text-muted reveal reveal-delay-2" style="font-size:15px;line-height:1.7;margin-bottom:32px;margin-top:12px;">Atendemos desde startups em fase inicial até empresas consolidadas que precisam evoluir.</p>
             <ul class="forwhom__list" role="list">
@@ -722,7 +901,6 @@
     <section class="section" id="processo" aria-labelledby="processo-title">
       <div class="container">
         <div class="text-center" style="max-width:560px;margin:0 auto 64px">
-          <span class="eyebrow reveal">Processo</span>
           <h2 class="heading-lg reveal reveal-delay-1" id="processo-title">Como Funciona Nosso Processo</h2>
           <p class="text-muted reveal reveal-delay-2" style="font-size:15px;line-height:1.7;margin-top:14px;">Do entendimento inicial à entrega, um fluxo claro, transparente e colaborativo.</p>
         </div>
@@ -744,7 +922,6 @@
     <section class="section section--surface" id="diferenciais" aria-labelledby="diferenciais-title">
       <div class="container">
         <div class="text-center" style="max-width:560px;margin:0 auto 60px">
-          <span class="eyebrow reveal">Diferenciais</span>
           <h2 class="heading-lg reveal reveal-delay-1" id="diferenciais-title">Por Que Escolher a GRN?</h2>
         </div>
         <div class="why__grid" role="list">
@@ -762,7 +939,6 @@
       <div class="container">
         <div class="benefits__inner">
           <div>
-            <span class="eyebrow reveal">Benefícios</span>
             <h2 class="heading-lg reveal reveal-delay-1" id="beneficios-title">O Que Sua Empresa<br>Vai Ganhar</h2>
             <p class="text-muted reveal reveal-delay-2" style="font-size:15px;line-height:1.7;margin:16px 0 36px;">Uma solução digital bem desenvolvida transforma a operação inteira do seu negócio.</p>
             <div class="benefits__list" role="list">
@@ -783,7 +959,6 @@
             </div>
           </div>
           <div>
-            <span class="eyebrow reveal">Manutenção &amp; Evolução</span>
             <h2 class="heading-md reveal reveal-delay-1" style="margin-bottom:16px;">Já Possui um Sistema? Também Podemos Ajudar.</h2>
             <p class="text-muted reveal reveal-delay-2" style="font-size:15px;line-height:1.7;margin-bottom:24px;">Nem sempre é necessário começar do zero. Evoluímos o que você já tem.</p>
             <div class="maintenance__visual reveal reveal-delay-2">
@@ -819,7 +994,6 @@
     <section class="section section--alt" id="faq" aria-labelledby="faq-title">
       <div class="container">
         <div class="text-center" style="margin-bottom:56px">
-          <span class="eyebrow reveal">FAQ</span>
           <h2 class="heading-lg reveal reveal-delay-1" id="faq-title">Perguntas Frequentes</h2>
         </div>
         <div class="faq__list" role="list">
@@ -838,7 +1012,6 @@
       <div class="container">
         <div class="contact__inner">
           <div>
-            <span class="eyebrow reveal">Contato</span>
             <h2 class="heading-lg reveal reveal-delay-1" id="contato-title">Vamos Construir<br>Sua Solução?</h2>
             <p class="text-muted reveal reveal-delay-2" style="font-size:15px;line-height:1.7;margin-top:14px;">Preencha o formulário ao lado e entraremos em contato pelo WhatsApp para dar início à conversa sobre seu projeto.</p>
             <div class="contact__info-list">
@@ -887,7 +1060,6 @@
       <div class="cta-final__bg" aria-hidden="true"></div>
       <div class="container">
         <div class="cta-final__content">
-          <span class="eyebrow reveal" style="justify-content:center;margin-bottom:20px;">Pronto para Começar?</span>
           <h2 class="cta-final__title reveal reveal-delay-1" id="cta-title">Transforme Sua<br><span class="text-accent">Ideia em Realidade.</span></h2>
           <p class="cta-final__sub reveal reveal-delay-2">Se você possui uma ideia, um problema para resolver ou um projeto que precisa sair do papel, a GRN Digital Solutions está pronta para ajudar.</p>
           <div class="cta-final__actions reveal reveal-delay-3">
@@ -1042,6 +1214,59 @@
       });
     }, { threshold: 0.4 });
     sections.forEach(s => navObserver.observe(s));
+
+    // NEWS CAROUSEL — um card visível por vez, autoplay com pausa em interação
+    (function () {
+      const track = document.getElementById('newsTrack');
+      const dotsWrap = document.getElementById('newsDots');
+      if (!track || !dotsWrap) return;
+      const cards = Array.from(track.children);
+      cards.forEach((_, i) => {
+        const dot = document.createElement('span');
+        if (i === 0) dot.classList.add('active');
+        dotsWrap.appendChild(dot);
+      });
+      const dots = Array.from(dotsWrap.children);
+      let index = 0;
+      let autoplayTimer = null;
+      let isPaused = false;
+
+      function goTo(i) {
+        index = (i + cards.length) % cards.length;
+        cards.forEach((card, ci) => card.classList.toggle('active', ci === index));
+        dots.forEach((d, di) => d.classList.toggle('active', di === index));
+      }
+
+      function next() {
+        goTo(index + 1);
+      }
+
+      function startAutoplay() {
+        stopAutoplay();
+        autoplayTimer = setInterval(() => { if (!isPaused) next(); }, 4500);
+      }
+      function stopAutoplay() {
+        if (autoplayTimer) clearInterval(autoplayTimer);
+      }
+
+      track.addEventListener('mouseenter', () => { isPaused = true; });
+      track.addEventListener('mouseleave', () => { isPaused = false; });
+      track.addEventListener('touchstart', () => { isPaused = true; }, { passive: true });
+      track.addEventListener('touchend', () => { setTimeout(() => { isPaused = false; }, 3000); }, { passive: true });
+
+      dots.forEach((dot, i) => {
+        dot.style.cursor = 'pointer';
+        dot.addEventListener('click', () => goTo(i));
+      });
+
+      const prevBtn = document.getElementById('newsPrev');
+      const nextBtn = document.getElementById('newsNext');
+      if (prevBtn) prevBtn.addEventListener('click', () => { goTo(index - 1); });
+      if (nextBtn) nextBtn.addEventListener('click', () => { goTo(index + 1); });
+
+      goTo(0);
+      startAutoplay();
+    })();
   </script>
 </body>
 </html>
