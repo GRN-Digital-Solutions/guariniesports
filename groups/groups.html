@@ -179,12 +179,13 @@ function googleTranslateElementInit() {
       </article>
 
       <!-- Slot vazio para futura Comunidade -->
-      <article class="ferramenta" style="opacity: 0.3;">
-        <img src="../img-site/embreve.png" alt="Em Breve" />
-        <h3>Coming Soon</h3>
-        <p class="descricao">New Community will be added here</p>
-        <button type="button" class="btn-comprar" disabled>Coming Soon</button>
-      </article>      
+      <article class="ferramenta">
+        <img src="../img-site/bocha.png" alt="Bocha de Galpão" />
+        <h3>Bocha de Galpão</h3>
+        <p class="descricao">Check out our games</p>
+        <button type="button" class="btn-comprar" id="bochaBtn">Open</button>
+        <div id="bochaAccessMessage" style="color: red; margin-top: 10px; display: none;"></div>
+      </article>
 
       <!-- Slot vazio para futura Comunidade -->
       <article class="ferramenta" style="opacity: 0.3;">
@@ -300,6 +301,7 @@ function googleTranslateElementInit() {
   const buildBtn = document.getElementById("buildBtn");
   const quizBtn = document.getElementById("quizBtn");
   const bingoBtn = document.getElementById("bingoBtn");
+  const bochaBtn = document.getElementById("bochaBtn");
   const calcAccessMessage = document.getElementById("calcAccessMessage");
   const statAccessMessage = document.getElementById("statAccessMessage");
   const calcWinrateMessage = document.getElementById("calcWinrateMessage");
@@ -307,6 +309,7 @@ function googleTranslateElementInit() {
   const buildAccessMessage = document.getElementById("buildAccessMessage");
   const quizAccessMessage = document.getElementById("quizAccessMessage");
   const bingoAccessMessage = document.getElementById("bingoAccessMessage");
+  const bochaAccessMessage = document.getElementById("bochaAccessMessage");
 
   // ========================================
   // MENU DROPDOWN DO USUÁRIO
@@ -551,6 +554,11 @@ function googleTranslateElementInit() {
     bingoAccessMessage.style.display = 'none';
   }
 
+  function setupBochaAccess() {
+    bochaBtn.onclick = () => window.location.href = '../jogos/bocha/bocha-galpao-rodeio.html';
+    bochaAccessMessage.style.display = 'none';
+  }
+
   async function checkStatsPermissions(user) {
     if (!user) {
       setupRestrictedStatsAccess("Faça login para acessar esta ferramenta");
@@ -602,6 +610,7 @@ function googleTranslateElementInit() {
     setupBuildAccess();
     setupQuizAccess();
     setupBingoAccess();
+    setupBochaAccess();
     
     await checkStatsPermissions(user);
   });
